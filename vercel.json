@@ -1,16 +1,16 @@
 {
-    "version": 2,
+    
     "builds": [
       {
-        "src": "manage.py",
+        "src": "qnapp/wsgi.py",
         "use": "@vercel/python",
-        "config": { "maxLambdaSize": "15mb" }
+        "config": { "maxLambdaSize": "15mb","runtime":"Python 3.12.3" }
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "manage.py"
+        "dest": "qnapp/wsgi.py"
       }
     ]
   }

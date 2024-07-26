@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['.vercel.app','127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -126,8 +127,8 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "/Users/HP/Desktop/MyDevelopement/QnApp/qnapp/questions/static"),  
+STATIC_DIRS = [
+    os.path.join(BASE_DIR, 'questions/static'),  
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
