@@ -4,6 +4,7 @@ from django.contrib.auth import views as auth_views
 from .views import CustomLogoutView
 
 urlpatterns = [
+     path('', views.root_view, name='root'),
     path('home/', views.question_list, name='question_list'),
     path('question/<int:pk>/', views.question_detail, name='question_detail'),
     path('tag/<str:tag_name>/', views.filter_by_tag, name='filter_by_tag'),

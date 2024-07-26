@@ -12,6 +12,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.http import *
 from django.urls import reverse
 
+def root_view(request):
+    return redirect('question_list')
 
 # List of all questions
 def question_list(request):
