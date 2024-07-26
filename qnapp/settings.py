@@ -151,5 +151,3 @@ LOGIN_URL = 'login'
 # For sending emails during password reset (if you plan to use this feature)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Use the console backend for development
 
-import django_heroku
-django_heroku.settings(locals())
