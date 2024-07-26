@@ -1,0 +1,66 @@
+<!-- templates/questions/question_list.html -->
+{% extends "base_generic.html" %}
+{% block content %}
+  <h1>Questions</h1>
+  <span><a href="{% url 'question_list' %}"><button>Reset</button></a></span>
+  <form method="get">
+
+    <div style="margin-bottom: 15px;">
+        <label for="search" style="display: block; margin-bottom: 5px;">Search:</label>
+        <input type="text" name="search" id="search" value="{{ search_query }}" placeholder="Search questions..." style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+      </div>
+
+    <div>
+      {% for tag in tags %}
+        <label>
+          <input type="checkbox" name="tags" value="{{ tag.name }}" 
+                 {% if tag.name in selected_tags %}checked{% endif %}>
+          {{ tag.name }}
+        </label>
+      {% endfor %}
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="year" style="display: block; margin-bottom: 5px;">Filter by year:</label>
+        <select name="year" id="year" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+          <option value="">All Years</option>
+          {% for year in years %}
+            <option value="{{ year.year }}" {% if selected_year == year.year|stringformat:"s" %}selected{% endif %}>{{ year.year }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    
+  <div style="margin-bottom: 15px;">
+    <label for="sort" style="display: block; margin-bottom: 5px;">Sort by:</label>
+    <select name="sort" id="sort"  onchange="this.form.submit()" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+      <option value="date" {% if sort_by == 'date' %}selected{% endif %}>Newest first</option>
+      <option value="date_asc" {% if sort_by == 'date_asc' %}selected{% endif %}>Oldest first</option>
+    </select>
+  </div>
+    <button type="submit">Filter</button>  
+  </form>
+ 
+    
+
+
+  
+  <ul>
+    {% if questions %}
+        {% for question in questions %}
+            <li><a href="{% url 'question_detail' question.pk %}">{{ question.title }}</a>
+            <span>Tags: 
+                {% for tag in question.tags.all %}
+                    <a href="{% url 'filter_by_tag' tag.name %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </span>
+        </li>
+        {% endfor %}
+    {% else %}
+        No questions yet
+    {% endif %}
+</ul>
+  
+   <a href="{% url 'create_question' %}"><input type="button" id="crtqun" value="Add Question" style="background-color: aqua; border-radius: 10px; padding: 3px;"></a>
+   
+  
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base_generic.html" %}
+
+
+<style>
+    a {
+       border: black;
+       background-color: rgb(192, 183, 206);
+       padding: 5px;
+      border-radius: 10px;
+      
+    }
+    
+   </style>
+   {% block stylesheet %}
+   {% endblock %}
+
+{% block title %}{{ question.title }}{% endblock %}
+
+{% block content %}
+    <h2>{{ question.title }}</h2>
+    <p>{{ question.description }}</p>
+   
+    <p>Tags: 
+        {% for tag in question.tags.all %}
+            <a href="{% url 'filter_by_tag' tag.name %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+    <p>Asked by {{ question.user.username }} on {{ question.created_at }}</p>
+    <a href="{% url 'like_question' question.pk %}">Like</a> {{ question.total_likes }} <span> </span>
+    <a href="{% url 'unlike_question' question.pk %}">Unlike</a>{{ question.total_unlikes }}
+    {% if request.user == question.user %}
+    <a href="{% url 'edit_question' question.pk %}">Edit Question</a>
+    <a href="{% url 'delete_question' question.pk %}">Delete Question</a>
+    {% endif %}
+    
+    
+
+
+
+
+    <h3>Answers  <a href="{% url 'create_answer' question.pk %}"> <button type="submit">Add Answer</button></a></h3>
+    <ul>
+        {% for answer in question.answers.all %}
+            <li>
+                <p>{{ answer.description }}</p>
+                <p>Answered by {{ answer.user.username }} on {{ answer.created_at }}</p>
+                <p>Votes: <a href="{% url 'like_answer' answer.question.pk  answer.pk%}">Upvote</a> {{ answer.total_likes }} <span> </span>
+                    <a href="{% url 'unlike_answer' answer.question.pk  answer.pk%}">Downvote</a>{{ answer.total_unlikes }}</p>
+                <p>
+            
+                    
+                {% if request.user == answer.user %}
+                    <a href="{% url 'edit_answer' answer.question.pk answer.pk %}">Edit_Answer</a>
+                    <a href="{% url 'delete_answer' answer.question.pk answer.pk %}">Delete_Answer</a>
+                {% endif %}
+                    <a href="{% url  'question_answer_comment' answer.question.id answer.id %}">Comments</a>
+                    <a href="{% url 'create_comment_answer' answer.question.id answer.id %}">Add Comment</a>
+
+
+                </p>
+                
+            </li>
+        {% endfor %}
+    </ul>
+
+       
+    <h3>Comments <a href="{% url 'create_comment' question.pk %}"> <button type="submit">Add Comment</button></a></h3>
+    <ul>
+        {% for comment in question.comments.all %}
+            <li>{{ comment.content }} </li>- {{ comment.user.username }} on {{ comment.created_at }}
+
+                <span>
+            
+                    <a href="{% url 'like_comment' comment.question.pk  comment.pk %}">Upvote</a> {{ comment.total_likes }}
+                    <a href="{% url 'unlike_comment' comment.question.pk  comment.pk%}">Downvote</a>{{ comment.total_unlikes }}
+                {% if request.user == comment.user %}
+                    <a href="{% url 'edit_comment' comment.question.pk  comment.pk %}">Edit_Comment</a>
+                    <a href="{% url 'delete_comment' comment.question.pk  comment.pk %}">Delete_Comment</a>
+                {% endif %}
+                    
+    
+    
+                </span>
+            
+            
+        {% endfor %}
+    </ul>
+
+
+    
+   
+{% endblock %}
